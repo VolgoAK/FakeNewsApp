@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">FakeNewsApp</string>
+
+    <string name="placeholder_text">Bacon ipsum dolor amet brisket meatloaf short loin,
+        picanha sausage pastrami tail shank leberkas rump ribeye jerky ball tip strip steak
+        ground round. Andouille corned beef pork loin capicola chicken rump. </string>
+    <string name="date_placeholder">10 Feb 1984</string>
+</resources>
