@@ -2,12 +2,12 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="?android:selectableItemBackground"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="@dimen/cards_margin"
     android:layout_marginRight="@dimen/cards_margin"
-    android:layout_marginTop="@dimen/cards_margin">
+    android:layout_marginTop="@dimen/cards_margin"
+    android:background="?android:selectableItemBackground">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -17,9 +17,9 @@
             android:id="@+id/tvPostTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/text_margin"
-            android:layout_marginRight="@dimen/text_margin"
-            android:layout_marginTop="@dimen/text_margin"
+            android:layout_marginLeft="@dimen/view_common_margin"
+            android:layout_marginRight="@dimen/view_common_margin"
+            android:layout_marginTop="@dimen/view_common_margin"
             android:textAppearance="@style/TitleTextStyle"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -30,15 +30,18 @@
             android:id="@+id/tvPostDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/placeholder_date"
+            android:textAppearance="@style/SecondaryTextStyle"
             app:layout_constraintLeft_toLeftOf="@id/tvPostTitle"
-            app:layout_constraintTop_toBottomOf="@id/tvPostTitle"
-            tools:text="10 Feb 2018" />
+            app:layout_constraintTop_toBottomOf="@id/tvPostTitle" />
 
         <TextView
             android:id="@+id/tvPostContent"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/text_margin"
+            android:layout_marginEnd="@dimen/view_common_margin"
+            android:layout_marginTop="@dimen/view_common_margin"
+            android:textAppearance="@style/ContentTextStyle"
             app:layout_constraintLeft_toLeftOf="@id/tvPostTitle"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvPostDate"
@@ -48,7 +51,8 @@
             android:id="@+id/tvPostCommentsCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/text_margin"
+            android:layout_marginBottom="@dimen/view_common_margin"
+            android:textAppearance="@style/SecondaryTextStyle"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="@id/tvPostContent"
             app:layout_constraintTop_toBottomOf="@id/tvPostContent"
@@ -57,10 +61,12 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_comment_black_24dp"
+            android:layout_marginRight="@dimen/view_small_margin"
+            app:layout_constraintBottom_toBottomOf="@id/tvPostCommentsCount"
             app:layout_constraintRight_toLeftOf="@id/tvPostCommentsCount"
             app:layout_constraintTop_toTopOf="@id/tvPostCommentsCount"
-            app:layout_constraintBottom_toBottomOf="@id/tvPostCommentsCount"/>
+            android:tint="@color/colorGray"
+            app:srcCompat="@drawable/ic_comment" />
 
     </android.support.constraint.ConstraintLayout>
 

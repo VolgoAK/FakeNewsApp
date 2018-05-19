@@ -19,6 +19,8 @@ data class Post(@SerializedName("id")
     @Backlink
     var comments : ToMany<Comment>? = null
 
-    //todo possible bugs
+    fun getCommentsCount() : Int {
+        return comments?.size ?: 0
+    }
 
 }

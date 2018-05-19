@@ -37,17 +37,11 @@ class PostsViewModel(app: Application) : AndroidViewModel(app){
             subscribeToPosts()
         }
 
-        Handler().postDelayed({
-            (dataSource as DataSourceImpl).instertTestPost()
-        }, 5000)
-
         return postsLiveData
     }
 
     private fun subscribeToPosts() {
-        postsDisposable?.dispose()
-
-        dataSource.getAllPosts(true)
+        postsDisposable = dataSource.getAllPosts(true)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ list ->
@@ -57,7 +51,7 @@ class PostsViewModel(app: Application) : AndroidViewModel(app){
                     Timber.e(error)
                 })
 
-//        dataSource.refreshComments()
+        dataSource.refreshComments()
     }
 
     override fun onCleared() {

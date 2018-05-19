@@ -8,9 +8,30 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="SplashScreenTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@drawable/background_splash</item>
+    </style>
+
     <style name="TitleTextStyle">
         <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:textSize">@dimen/title_text_size</item>
     </style>
+
+    <style name="SubtitleTextStyle" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <style name="ContentTextStyle" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textColor">@color/colorBlack</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
+    <style name="SecondaryTextStyle" parent="TextAppearance.AppCompat.Small">
+
+    </style>
+
+
 
 </resources>

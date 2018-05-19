@@ -26,10 +26,7 @@ class DataSourceImpl(val api: PlaceHolderApi, val boxStore: BoxStore) : DataSour
         if(refresh) refreshPosts()
 
         val query = postBox.query().build()
-        return RxQuery.observable(query).map {
-            Timber.d("on posts ${it.size}")
-            it
-        }
+        return RxQuery.observable(query)
     }
 
     override fun getPost(id: Long): Observable<Post> {
@@ -45,9 +42,9 @@ class DataSourceImpl(val api: PlaceHolderApi, val boxStore: BoxStore) : DataSour
     }
 
     //todo delete
-    fun instertTestPost() {
+    fun instertTestPost(id : Long = 1001) {
         Timber.d("New post added")
-        val post = Post(id = 1000, title = "new post")
+        val post = Post(id = id, title = "new post")
         postBox.put(post)
     }
 

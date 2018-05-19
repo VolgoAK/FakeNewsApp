@@ -21,13 +21,12 @@ class PostViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     fun bind(post: Post) {
         tvTitle.text = post.title
         tvContent.text = post.body
+        tvCommentsCount.text = post.getCommentsCount().toString()
+
+
 
         itemView.setOnClickListener {
             listener?.invoke(post)
-        }
-
-        post.comments?.let {
-            tvCommentsCount.text = it.size.toString()
         }
     }
 }
