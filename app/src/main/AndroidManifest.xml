@@ -21,7 +21,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.MainActivity"/>
-        <activity android:name=".ui.PostActivity" />
+        <activity android:name=".ui.PostActivity"
+            android:theme="@style/PostActivityTheme"/>
     </application>
 
 </manifest>

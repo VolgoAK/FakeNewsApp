@@ -8,10 +8,10 @@ import com.volgoak.fakenewsapp.beans.Comment
 /**
  * Created by alex on 5/17/18.
  */
-class CommentViewHolder(val view : View) {
-    val tvAuthor : TextView = view.findViewById(R.id.tvCommentAuthor)
-    val tvDate : TextView = view.findViewById(R.id.tvCommentDate)
-    val tvContent : TextView = view.findViewById(R.id.tvCommentContent)
+class CommentViewHolder(val view: View) {
+    private val tvAuthor: TextView = view.findViewById(R.id.tvCommentAuthor)
+    private val tvDate: TextView = view.findViewById(R.id.tvCommentDate)
+    private val tvContent: TextView = view.findViewById(R.id.tvCommentContent)
 
     fun bind(comment: Comment) {
         tvAuthor.text = comment.name

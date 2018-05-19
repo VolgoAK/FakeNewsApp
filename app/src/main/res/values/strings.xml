@@ -10,4 +10,5 @@
 
     <string name="error_updating_posts">Error while updating posts</string>
     <string name="error_updating_comments">Error while updating comments</string>
+    <string name="db_error">Database error</string>
 </resources>

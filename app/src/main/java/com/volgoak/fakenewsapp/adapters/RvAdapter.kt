@@ -29,10 +29,8 @@ class RvAdapter : RecyclerView.Adapter<PostViewHolder>() {
     override fun getItemCount(): Int = data?.size ?: 0
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
-        data?.let {
-            it.getOrNull(position)?.let {
-                holder.bind(it)
-            }
+        data?.getOrNull(position)?.let {
+            holder.bind(it)
         }
     }
 

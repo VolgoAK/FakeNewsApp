@@ -18,14 +18,14 @@ import javax.inject.Inject
 /**
  * Created by alex on 5/16/18.
  */
-class PostsViewModel(app: Application) : AndroidViewModel(app){
+class PostsViewModel(app: Application) : AndroidViewModel(app) {
 
     @Inject
-    lateinit var dataSource : DataSource
+    lateinit var dataSource: DataSource
 
     private val postsLiveData = MutableLiveData<List<Post>>()
 
-    private var postsDisposable : Disposable? = null
+    private var postsDisposable: Disposable? = null
 
     init {
         (app as App).appComponent.inject(this)
@@ -35,8 +35,8 @@ class PostsViewModel(app: Application) : AndroidViewModel(app){
      * Возвращает LiveData c постами, подписывается на обновления
      * от DataSource, если подписка не была создана ранее
      */
-    fun getPosts() : LiveData<List<Post>> {
-        if(postsDisposable == null) {
+    fun getPosts(): LiveData<List<Post>> {
+        if (postsDisposable == null) {
             subscribeToPosts()
         }
 

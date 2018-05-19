@@ -16,14 +16,13 @@ class PostViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val tvContent: TextView = view.findViewById(R.id.tvPostContent)
     private val tvCommentsCount: TextView = view.findViewById(R.id.tvPostCommentsCount)
 
-    var listener : ((Post) -> Unit)? = null
+    var listener: ((Post) -> Unit)? = null
 
     fun bind(post: Post) {
         tvTitle.text = post.title
         tvContent.text = post.body
         tvCommentsCount.text = post.getCommentsCount().toString()
-
-
+        tvDate.setText(R.string.date_placeholder)
 
         itemView.setOnClickListener {
             listener?.invoke(post)

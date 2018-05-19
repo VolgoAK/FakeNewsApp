@@ -15,7 +15,7 @@ import javax.inject.Inject
 /**
  * Created by alex on 5/17/18.
  */
-class SinglePostViewModel(app: Application,val postId: Long) : AndroidViewModel(app) {
+class SinglePostViewModel(app: Application, val postId: Long) : AndroidViewModel(app) {
 
     @Inject
     lateinit var dataSource: DataSource
@@ -61,7 +61,7 @@ class SinglePostViewModel(app: Application,val postId: Long) : AndroidViewModel(
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ post ->
                     postLiveData.value = post
-                }, {error ->
+                }, { error ->
                     Timber.e(error)
                 })
     }

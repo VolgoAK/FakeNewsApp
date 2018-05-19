@@ -1,13 +1,12 @@
 package com.volgoak.fakenewsapp.dataSource
 
-import android.app.DownloadManager
+import com.volgoak.fakenewsapp.ErrorHandler
 import com.volgoak.fakenewsapp.PlaceHolderApi
 import com.volgoak.fakenewsapp.beans.Comment
 import com.volgoak.fakenewsapp.beans.Comment_
 import com.volgoak.fakenewsapp.beans.Post
 import com.volgoak.fakenewsapp.beans.Post_
 import io.objectbox.BoxStore
-import io.objectbox.query.Query
 import io.objectbox.rx.RxQuery
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
@@ -17,7 +16,8 @@ import timber.log.Timber
  * Реализация интерфейса DataSource. Получает данные с сервера jsonplaceholder.typicode.com
  * и кэширует их в базу данных ObjectBox
  */
-class DataSourceImpl(private val api: PlaceHolderApi, boxStore: BoxStore) : DataSource {
+class DataSourceImpl(private val api: PlaceHolderApi, boxStore: BoxStore,
+                     private val errorHandler: ErrorHandler) : DataSource {
 
     private val postBox = boxStore.boxFor(Post::class.java)
     private val commentsBox = boxStore.boxFor(Comment::class.java)
@@ -28,7 +28,7 @@ class DataSourceImpl(private val api: PlaceHolderApi, boxStore: BoxStore) : Data
      */
     override fun getAllPosts(refresh: Boolean): Observable<List<Post>> {
 
-        if(refresh) refreshPosts()
+        if (refresh) refreshPosts()
 
         val query = postBox.query().build()
         return RxQuery.observable(query)
@@ -36,7 +36,7 @@ class DataSourceImpl(private val api: PlaceHolderApi, boxStore: BoxStore) : Data
 
     override fun getPost(id: Long): Observable<Post> {
         val query = postBox.query().equal(Post_.id, id).build()
-        return RxQuery.observable(query).map { it.first()}
+        return RxQuery.observable(query).map { it.first() }
     }
 
     override fun getComments(postId: Long): Observable<List<Comment>> {
@@ -57,8 +57,7 @@ class DataSourceImpl(private val api: PlaceHolderApi, boxStore: BoxStore) : Data
                     Timber.d("Posts from server. Size ${list.size}")
                     postBox.put(list)
                 }, { error ->
-                    //todo handle errors
-                    Timber.e(error)
+                    errorHandler.onPostsUpdateError(error)
                 })
     }
 
@@ -72,7 +71,7 @@ class DataSourceImpl(private val api: PlaceHolderApi, boxStore: BoxStore) : Data
                 .subscribe({ comments ->
                     commentsBox.put(comments)
                 }, { error ->
-                    Timber.e(error)
+                    errorHandler.onCommentsUpdateError(error)
                 })
     }
 
@@ -87,8 +86,7 @@ class DataSourceImpl(private val api: PlaceHolderApi, boxStore: BoxStore) : Data
                 .subscribe({ post ->
                     postBox.put(post)
                 }, { error ->
-                    //todo handle errors
-                    Timber.e(error)
+                    errorHandler.onPostsUpdateError(error)
                 })
     }
 
@@ -103,8 +101,7 @@ class DataSourceImpl(private val api: PlaceHolderApi, boxStore: BoxStore) : Data
                 .subscribe({ comments ->
                     commentsBox.put(comments)
                 }, { error ->
-                    //todo handle errors
-                    Timber.e(error)
+                    errorHandler.onCommentsUpdateError(error)
                 })
     }
 }

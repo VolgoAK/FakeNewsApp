@@ -2,15 +2,15 @@ package com.volgoak.fakenewsapp.ui
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.MenuItem
 import com.volgoak.fakenewsapp.R
-import com.volgoak.fakenewsapp.viewModel.SinglePostViewModel
 import com.volgoak.fakenewsapp.adapters.CommentViewHolder
 import com.volgoak.fakenewsapp.beans.Comment
 import com.volgoak.fakenewsapp.beans.Post
+import com.volgoak.fakenewsapp.viewModel.SinglePostViewModel
 import kotlinx.android.synthetic.main.activity_post.*
 
 /**
@@ -43,7 +43,7 @@ class PostActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return if(item?.itemId == android.R.id.home) {
+        return if (item?.itemId == android.R.id.home) {
             super.onBackPressed()
             true
         } else {
@@ -51,18 +51,18 @@ class PostActivity : AppCompatActivity() {
         }
     }
 
-    private fun onPostReady(post : Post) {
+    private fun onPostReady(post: Post) {
         tvTitle.text = post.title
         tvContent.text = post.body
         //Используем placeHolder для даты
-        tvDate.text = "12 jun 1984"
+        tvDate.setText(R.string.date_placeholder)
     }
 
     /**
      * Для каждого комментария создает CommentHolder
      * и добавляет его вьюху в LinearLayout
      */
-    private fun onCommentsReady(comments : List<Comment>) {
+    private fun onCommentsReady(comments: List<Comment>) {
         llComments.removeAllViews()
         comments.forEach {
             val view = LayoutInflater.from(this)

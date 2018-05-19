@@ -1,26 +1,37 @@
 package com.volgoak.fakenewsapp
 
-import android.os.SystemClock
 import com.volgoak.fakenewsapp.beans.MyObjectBox
 import com.volgoak.fakenewsapp.beans.Post
 import com.volgoak.fakenewsapp.dataSource.DataSourceImpl
 import io.objectbox.BoxStore
-import io.reactivex.Observer
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
-import io.reactivex.schedulers.TestScheduler
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.*
+import java.io.File
 
 /**
  * Created by alex on 5/17/18.
  */
 class DataSourceTest {
 
+
+    private val dbFolder = File("FakeNewsApp/test_db")
+
+
+    lateinit var boxStore: BoxStore
+
+    @Before
+    fun setup() {
+        BoxStore.deleteAllFiles(dbFolder)
+        boxStore = MyObjectBox.builder()
+                .directory(dbFolder)
+                .build()
+    }
+
     @Test
     fun testBoxUpdate() {
-        val boxStore = MyObjectBox.builder().build()
         boxStore.boxFor(Post::class.java).put(Post(id = 10, title = "Some post"))
 
         val api = mock(PlaceHolderApi::class.java)
@@ -32,13 +43,14 @@ class DataSourceTest {
                 Single.just(Post(id = 1, title = "first updated"))
         )
 
-        val dataSource = DataSourceImpl(api, boxStore)
+        val errorHandler = mock(ErrorHandler::class.java)
+        val dataSource = DataSourceImpl(api, boxStore, errorHandler)
         val testObserver = mock(TestingObserver::class.java)
 
 
         dataSource.getAllPosts(false).observeOn(Schedulers.io())
                 .subscribeOn(Schedulers.io())
-                .subscribe {list ->
+                .subscribe { list ->
                     println("List fetched")
                     testObserver.onPosts(list)
                 }
@@ -59,6 +71,6 @@ class DataSourceTest {
     }
 
     interface TestingObserver {
-        fun onPosts(posts : List<Post>?)
+        fun onPosts(posts: List<Post>?)
     }
 }

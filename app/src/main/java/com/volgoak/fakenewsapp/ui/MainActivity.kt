@@ -6,11 +6,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.Toolbar
-import com.volgoak.fakenewsapp.viewModel.PostsViewModel
 import com.volgoak.fakenewsapp.R
 import com.volgoak.fakenewsapp.adapters.RvAdapter
 import com.volgoak.fakenewsapp.beans.Post
+import com.volgoak.fakenewsapp.viewModel.PostsViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
 /**
@@ -49,7 +48,7 @@ class MainActivity : AppCompatActivity() {
     /**
      * При клике на пост, открывает PostActivity с выбранным постом
      */
-    private fun onPostClicked(post : Post) {
+    private fun onPostClicked(post: Post) {
         val intent = Intent(this, PostActivity::class.java)
         intent.putExtra(PostActivity.EXTRA_POST_ID, post.id)
 

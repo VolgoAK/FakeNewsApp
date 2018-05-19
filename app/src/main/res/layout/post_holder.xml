@@ -54,6 +54,7 @@
             android:layout_marginBottom="@dimen/view_common_margin"
             android:layout_marginTop="@dimen/view_common_margin"
             android:textAppearance="@style/SecondaryTextStyle"
+            android:textSize="@dimen/comment_count_text_size"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="@id/tvPostContent"
             app:layout_constraintTop_toBottomOf="@id/tvPostContent"
