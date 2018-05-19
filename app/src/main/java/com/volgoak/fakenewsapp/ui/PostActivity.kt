@@ -1,15 +1,22 @@
-package com.volgoak.fakenewsapp
+package com.volgoak.fakenewsapp.ui
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
+import com.volgoak.fakenewsapp.R
+import com.volgoak.fakenewsapp.viewModel.SinglePostViewModel
 import com.volgoak.fakenewsapp.adapters.CommentViewHolder
 import com.volgoak.fakenewsapp.beans.Comment
 import com.volgoak.fakenewsapp.beans.Post
 import kotlinx.android.synthetic.main.activity_post.*
 
+/**
+ * Activity отображает содержимое конкретного поста
+ * и комментарии к нему
+ */
 class PostActivity : AppCompatActivity() {
 
     lateinit var viewModel: SinglePostViewModel
@@ -35,12 +42,26 @@ class PostActivity : AppCompatActivity() {
         })
     }
 
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return if(item?.itemId == android.R.id.home) {
+            super.onBackPressed()
+            true
+        } else {
+            super.onOptionsItemSelected(item)
+        }
+    }
+
     private fun onPostReady(post : Post) {
         tvTitle.text = post.title
         tvContent.text = post.body
+        //Используем placeHolder для даты
         tvDate.text = "12 jun 1984"
     }
 
+    /**
+     * Для каждого комментария создает CommentHolder
+     * и добавляет его вьюху в LinearLayout
+     */
     private fun onCommentsReady(comments : List<Comment>) {
         llComments.removeAllViews()
         comments.forEach {

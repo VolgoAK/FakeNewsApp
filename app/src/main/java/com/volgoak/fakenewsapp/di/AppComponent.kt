@@ -1,8 +1,8 @@
 package com.volgoak.fakenewsapp.di
 
-import com.volgoak.fakenewsapp.MainActivity
-import com.volgoak.fakenewsapp.PostsViewModel
-import com.volgoak.fakenewsapp.SinglePostViewModel
+import com.volgoak.fakenewsapp.ui.MainActivity
+import com.volgoak.fakenewsapp.viewModel.PostsViewModel
+import com.volgoak.fakenewsapp.viewModel.SinglePostViewModel
 import dagger.Component
 
 /**

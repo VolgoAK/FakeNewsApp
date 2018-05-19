@@ -8,7 +8,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 /**
- * Created by alex on 5/16/18.
+ * Api для связи с сервером jsonplaceholder.typicode.com
  */
 interface PlaceHolderApi {
 

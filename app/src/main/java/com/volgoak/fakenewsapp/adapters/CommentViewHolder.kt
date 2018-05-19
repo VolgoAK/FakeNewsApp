@@ -16,6 +16,6 @@ class CommentViewHolder(val view : View) {
     fun bind(comment: Comment) {
         tvAuthor.text = comment.name
         tvContent.text = comment.body
-
+        tvDate.setText(R.string.date_placeholder)
     }
 }

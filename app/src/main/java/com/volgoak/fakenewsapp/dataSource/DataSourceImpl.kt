@@ -14,13 +14,18 @@ import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
 /**
- * Created by alex on 5/16/18.
+ * Реализация интерфейса DataSource. Получает данные с сервера jsonplaceholder.typicode.com
+ * и кэширует их в базу данных ObjectBox
  */
-class DataSourceImpl(val api: PlaceHolderApi, val boxStore: BoxStore) : DataSource {
+class DataSourceImpl(private val api: PlaceHolderApi, boxStore: BoxStore) : DataSource {
 
     private val postBox = boxStore.boxFor(Post::class.java)
     private val commentsBox = boxStore.boxFor(Comment::class.java)
 
+    /**
+     * Возвращает посты из базы данных в виде Observable
+     * @param refresh загрузить новые данные с сервера
+     */
     override fun getAllPosts(refresh: Boolean): Observable<List<Post>> {
 
         if(refresh) refreshPosts()
@@ -41,14 +46,10 @@ class DataSourceImpl(val api: PlaceHolderApi, val boxStore: BoxStore) : DataSour
         return RxQuery.observable(query)
     }
 
-    //todo delete
-    fun instertTestPost(id : Long = 1001) {
-        Timber.d("New post added")
-        val post = Post(id = id, title = "new post")
-        postBox.put(post)
-    }
-
-    fun refreshPosts() {
+    /**
+     * Загружает все посты с сервера и добавляет их в базу данных
+     */
+    override fun refreshPosts() {
         api.getAllPosts()
                 .observeOn(Schedulers.io())
                 .subscribeOn(Schedulers.io())
@@ -61,6 +62,24 @@ class DataSourceImpl(val api: PlaceHolderApi, val boxStore: BoxStore) : DataSour
                 })
     }
 
+    /**
+     * Загружает все комментарии с сервера и добавляет их в базу данных
+     */
+    override fun refreshComments() {
+        api.getComments()
+                .observeOn(Schedulers.io())
+                .subscribeOn(Schedulers.io())
+                .subscribe({ comments ->
+                    commentsBox.put(comments)
+                }, { error ->
+                    Timber.e(error)
+                })
+    }
+
+    /**
+     * Загружает пост по id и обнавляет данные в базе
+     * @param id id поста
+     */
     fun refreshPost(id: Long) {
         api.getPostById(id)
                 .observeOn(Schedulers.io())
@@ -73,6 +92,10 @@ class DataSourceImpl(val api: PlaceHolderApi, val boxStore: BoxStore) : DataSour
                 })
     }
 
+    /**
+     * Загружает комментарии относящиеся к посту и обновляет данные в базе
+     * @param postId id поста, комменты к которому нужно обновить
+     */
     fun refreshComments(postId: Long) {
         api.getCommentsByPostId(postId)
                 .observeOn(Schedulers.io())
@@ -81,17 +104,6 @@ class DataSourceImpl(val api: PlaceHolderApi, val boxStore: BoxStore) : DataSour
                     commentsBox.put(comments)
                 }, { error ->
                     //todo handle errors
-                    Timber.e(error)
-                })
-    }
-
-    override fun refreshComments() {
-        api.getComments()
-                .observeOn(Schedulers.io())
-                .subscribeOn(Schedulers.io())
-                .subscribe({ comments ->
-                    commentsBox.put(comments)
-                }, { error ->
                     Timber.e(error)
                 })
     }

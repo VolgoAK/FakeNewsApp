@@ -1,13 +1,12 @@
-package com.volgoak.fakenewsapp
+package com.volgoak.fakenewsapp.viewModel
 
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
-import android.os.Handler
+import com.volgoak.fakenewsapp.App
 import com.volgoak.fakenewsapp.beans.Post
 import com.volgoak.fakenewsapp.dataSource.DataSource
-import com.volgoak.fakenewsapp.dataSource.DataSourceImpl
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -32,6 +31,10 @@ class PostsViewModel(app: Application) : AndroidViewModel(app){
         (app as App).appComponent.inject(this)
     }
 
+    /**
+     * Возвращает LiveData c постами, подписывается на обновления
+     * от DataSource, если подписка не была создана ранее
+     */
     fun getPosts() : LiveData<List<Post>> {
         if(postsDisposable == null) {
             subscribeToPosts()
@@ -40,6 +43,10 @@ class PostsViewModel(app: Application) : AndroidViewModel(app){
         return postsLiveData
     }
 
+    /**
+     * Подписывается на обновления от DataSource,
+     * вызывает обновление постов и комментариев
+     */
     private fun subscribeToPosts() {
         postsDisposable = dataSource.getAllPosts(true)
                 .subscribeOn(Schedulers.io())
@@ -56,6 +63,7 @@ class PostsViewModel(app: Application) : AndroidViewModel(app){
 
     override fun onCleared() {
         super.onCleared()
+        //очищаем подписку
         postsDisposable?.dispose()
     }
 }

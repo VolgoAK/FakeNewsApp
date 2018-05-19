@@ -1,9 +1,9 @@
-package com.volgoak.fakenewsapp
+package com.volgoak.fakenewsapp.viewModel
 
 import android.app.Application
 import android.arch.lifecycle.*
+import com.volgoak.fakenewsapp.App
 import com.volgoak.fakenewsapp.beans.Comment
-import com.volgoak.fakenewsapp.beans.Comment_.postId
 import com.volgoak.fakenewsapp.beans.Post
 import com.volgoak.fakenewsapp.dataSource.DataSource
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -30,6 +30,10 @@ class SinglePostViewModel(app: Application,val postId: Long) : AndroidViewModel(
         (app as App).appComponent.inject(this)
     }
 
+    /**
+     * Возвращает LiveData c постом.
+     * При первом вызове вызывает загрузку поста из DataSource
+     */
     fun getNote(): LiveData<Post> {
         if (postDisposable == null) {
             loadPost()
@@ -37,6 +41,9 @@ class SinglePostViewModel(app: Application,val postId: Long) : AndroidViewModel(
         return postLiveData
     }
 
+    /**
+     * Возвращает LiveData с комментариями к текущему посту
+     */
     fun getComments(): LiveData<List<Comment>> {
         if (commentsDisposable == null) {
             loadComments()
@@ -45,6 +52,9 @@ class SinglePostViewModel(app: Application,val postId: Long) : AndroidViewModel(
         return commentsLiveData
     }
 
+    /**
+     * Подписывается на обновления поста от DataSource
+     */
     private fun loadPost() {
         postDisposable = dataSource.getPost(postId)
                 .subscribeOn(Schedulers.io())
@@ -56,6 +66,9 @@ class SinglePostViewModel(app: Application,val postId: Long) : AndroidViewModel(
                 })
     }
 
+    /**
+     * Подписывается на обновления комментариев к посту
+     */
     private fun loadComments() {
         commentsDisposable = dataSource.getComments(postId)
                 .subscribeOn(Schedulers.io())
@@ -73,6 +86,9 @@ class SinglePostViewModel(app: Application,val postId: Long) : AndroidViewModel(
         commentsDisposable?.dispose()
     }
 
+    /**
+     * Фабрика для создания ViewModel
+     */
     class Factory(val app: Application, val postId: Long) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             return SinglePostViewModel(app, postId) as T

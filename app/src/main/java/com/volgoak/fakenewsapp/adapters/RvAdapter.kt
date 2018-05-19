@@ -9,11 +9,11 @@ import com.volgoak.fakenewsapp.beans.Post
 /**
  * Created by alex on 5/17/18.
  */
-class RvAdapter : RecyclerView.Adapter<PostViewHolder>(){
+class RvAdapter : RecyclerView.Adapter<PostViewHolder>() {
 
     private var data: List<Post>? = null
 
-    var listener : ((Post) -> Unit)? = null
+    var listener: ((Post) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
 
@@ -36,7 +36,7 @@ class RvAdapter : RecyclerView.Adapter<PostViewHolder>(){
         }
     }
 
-    fun changeData(newData : List<Post>?) {
+    fun changeData(newData: List<Post>?) {
         data = newData
         notifyDataSetChanged()
     }

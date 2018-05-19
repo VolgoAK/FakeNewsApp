@@ -30,7 +30,7 @@
             android:id="@+id/tvPostDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/placeholder_date"
+            android:text="@string/date_placeholder"
             android:textAppearance="@style/SecondaryTextStyle"
             app:layout_constraintLeft_toLeftOf="@id/tvPostTitle"
             app:layout_constraintTop_toBottomOf="@id/tvPostTitle" />
@@ -52,6 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/view_common_margin"
+            android:layout_marginTop="@dimen/view_common_margin"
             android:textAppearance="@style/SecondaryTextStyle"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="@id/tvPostContent"
@@ -62,11 +63,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/view_small_margin"
+            android:tint="@color/colorGray"
             app:layout_constraintBottom_toBottomOf="@id/tvPostCommentsCount"
             app:layout_constraintRight_toLeftOf="@id/tvPostCommentsCount"
             app:layout_constraintTop_toTopOf="@id/tvPostCommentsCount"
-            android:tint="@color/colorGray"
-            app:srcCompat="@drawable/ic_comment" />
+            app:srcCompat="@drawable/ic_comment"
+            tools:ignore="RtlHardcoded" />
 
     </android.support.constraint.ConstraintLayout>
 

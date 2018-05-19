@@ -7,7 +7,7 @@ import io.reactivex.Observable
 
 
 /**
- * Created by alex on 5/16/18.
+ * Интерфейс взаимодействия с базой данных
  */
 interface DataSource {
     fun getAllPosts(refresh : Boolean) : Observable<List<Post>>
@@ -17,4 +17,6 @@ interface DataSource {
     fun getComments(postId : Long) : Observable<List<Comment>>
 
     fun refreshComments()
+
+    fun refreshPosts()
 }

@@ -2,12 +2,12 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android"
     android:opacity="opaque">
 
-    <item android:drawable="?attr/colorPrimary"/>
+    <item android:drawable="@color/colorPrimary"/>
 
 
-    <!--<item>
-        <bitmap android:src="@drawable/hat_icon_start"
+    <item>
+        <bitmap android:src="@drawable/reader"
             android:gravity="center" />
-    </item>-->
+    </item>
 
 </layer-list>
