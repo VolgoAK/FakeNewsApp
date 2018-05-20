@@ -1,5 +1,7 @@
 package com.volgoak.fakenewsapp.dataSource
 
+import android.arch.lifecycle.LiveData
+import com.volgoak.fakenewsapp.utils.ErrorType
 import com.volgoak.fakenewsapp.beans.Comment
 import com.volgoak.fakenewsapp.beans.Post
 import io.reactivex.Observable
@@ -18,4 +20,6 @@ interface DataSource {
     fun refreshComments()
 
     fun refreshPosts()
+
+    fun getErrorLiveData() : LiveData<ErrorType>
 }

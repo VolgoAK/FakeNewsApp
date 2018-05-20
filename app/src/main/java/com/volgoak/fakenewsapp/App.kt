@@ -6,9 +6,7 @@ import com.volgoak.fakenewsapp.di.AppModule
 import com.volgoak.fakenewsapp.di.DaggerAppComponent
 import timber.log.Timber
 
-/**
- * Created by alex on 5/16/18.
- */
+
 class App : Application() {
 
     lateinit var appComponent: AppComponent

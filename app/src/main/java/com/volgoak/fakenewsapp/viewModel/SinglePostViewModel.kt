@@ -6,6 +6,8 @@ import com.volgoak.fakenewsapp.App
 import com.volgoak.fakenewsapp.beans.Comment
 import com.volgoak.fakenewsapp.beans.Post
 import com.volgoak.fakenewsapp.dataSource.DataSource
+import com.volgoak.fakenewsapp.utils.ErrorType
+import com.volgoak.fakenewsapp.utils.showErrorToast
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -26,8 +28,16 @@ class SinglePostViewModel(app: Application, val postId: Long) : AndroidViewModel
     private var postDisposable: Disposable? = null
     private var commentsDisposable: Disposable? = null
 
+    private val errorObserver = Observer<ErrorType>{
+        it?.let {
+            showErrorToast(it, app)
+        }
+    }
+
     init {
         (app as App).appComponent.inject(this)
+        dataSource.getErrorLiveData()
+                .observeForever(errorObserver)
     }
 
     /**
@@ -84,6 +94,10 @@ class SinglePostViewModel(app: Application, val postId: Long) : AndroidViewModel
         super.onCleared()
         postDisposable?.dispose()
         commentsDisposable?.dispose()
+
+        dataSource.getErrorLiveData()
+                .removeObserver(errorObserver)
+
     }
 
     /**

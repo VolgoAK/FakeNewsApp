@@ -1,18 +1,21 @@
 package com.volgoak.fakenewsapp.viewModel
 
+
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.Observer
 import com.volgoak.fakenewsapp.App
 import com.volgoak.fakenewsapp.beans.Post
 import com.volgoak.fakenewsapp.dataSource.DataSource
+import com.volgoak.fakenewsapp.utils.ErrorType
+import com.volgoak.fakenewsapp.utils.SingleLiveEvent
+import com.volgoak.fakenewsapp.utils.showErrorToast
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
-
-
 import javax.inject.Inject
 
 /**
@@ -27,8 +30,20 @@ class PostsViewModel(app: Application) : AndroidViewModel(app) {
 
     private var postsDisposable: Disposable? = null
 
+    //При ошибке просто вызывается колбек, без деталей
+    val errorLiveData = SingleLiveEvent<Unit>()
+
+    private val errorObserver = Observer<ErrorType> {
+        it?.let {
+            showErrorToast(it, app)
+            errorLiveData.value = Unit
+        }
+    }
+
     init {
         (app as App).appComponent.inject(this)
+        dataSource.getErrorLiveData()
+                .observeForever(errorObserver)
     }
 
     /**
@@ -61,9 +76,14 @@ class PostsViewModel(app: Application) : AndroidViewModel(app) {
         dataSource.refreshComments()
     }
 
+    fun refreshPosts() {
+        dataSource.refreshPosts()
+    }
+
     override fun onCleared() {
         super.onCleared()
         //очищаем подписку
         postsDisposable?.dispose()
+        dataSource.getErrorLiveData().removeObserver(errorObserver)
     }
 }

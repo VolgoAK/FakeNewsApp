@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.activity_post.*
  */
 class PostActivity : AppCompatActivity() {
 
-    lateinit var viewModel: SinglePostViewModel
+    private lateinit var viewModel: SinglePostViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

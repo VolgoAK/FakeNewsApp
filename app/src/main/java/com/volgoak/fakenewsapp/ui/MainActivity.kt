@@ -32,6 +32,12 @@ class MainActivity : AppCompatActivity() {
             onPostsReady(list)
         })
 
+        //Основная бработка ошибок загрузки происходит в ViewModel,
+        //здесь просто прекращаем обновление
+        viewModel.errorLiveData.observe(this, Observer {
+            swipeLayoutMain.isRefreshing = false
+        })
+
         //Инициализация RecyclerView
         val llm = LinearLayoutManager(this)
         rvMain.layoutManager = llm
@@ -39,10 +45,15 @@ class MainActivity : AppCompatActivity() {
         adapter = RvAdapter()
         adapter.listener = this::onPostClicked
         rvMain.adapter = adapter
+
+        swipeLayoutMain.setOnRefreshListener {
+            viewModel.refreshPosts()
+        }
     }
 
     private fun onPostsReady(posts: List<Post>?) {
         adapter.changeData(posts)
+        swipeLayoutMain.isRefreshing = false
     }
 
     /**

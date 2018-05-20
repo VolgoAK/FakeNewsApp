@@ -9,6 +9,7 @@ import io.reactivex.schedulers.Schedulers
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.*
+import org.xml.sax.ErrorHandler
 import java.io.File
 
 /**
@@ -43,8 +44,7 @@ class DataSourceTest {
                 Single.just(Post(id = 1, title = "first updated"))
         )
 
-        val errorHandler = mock(ErrorHandler::class.java)
-        val dataSource = DataSourceImpl(api, boxStore, errorHandler)
+        val dataSource = DataSourceImpl(api, boxStore)
         val testObserver = mock(TestingObserver::class.java)
 
 
